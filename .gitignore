@@ -1,0 +1,6 @@
+.session
+.advent
+__pycache__
+input.txt
+*.sublime-workspace
+pypy/
