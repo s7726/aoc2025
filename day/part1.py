@@ -11,13 +11,13 @@ class TestPart(unittest.TestCase):
         self.assertEqual(process(test_in), out)
 
 
-def process(input):
+def process(input: str):
     total = 0
 
     return total
 
 
-def input_runner(input):
+def input_runner(input: str):
     """This exists to provide a cleaner place to feed puzzle specific arguments
     to the process function
     """
