@@ -50,16 +50,42 @@ L82"""
         self.assertEqual(process(test_in, start, end, start_num), out)
 
     def test_example4(self):
-        test_in = """R460"""
+        test_in = """L50
+R1"""
 
-        out = 4
+        out = 1
 
         start = 0
         end = 99
 
-        start_num = 40
+        start_num = 50
 
         self.assertEqual(process(test_in, start, end, start_num), out)
+
+    def test_example5(self):
+        test_in = """R50
+L1"""
+
+        out = 1
+
+        start = 0
+        end = 99
+
+        start_num = 50
+
+        self.assertEqual(process(test_in, start, end, start_num), out)
+
+    def test_example6(self):
+        tests_in = [("L250", 3), ("L251", 3), ("R250", 3), ("R251", 3)]
+
+        start = 0
+        end = 99
+
+        start_num = 50
+
+        for test in tests_in:
+            with self.subTest(test[0]):
+                self.assertEqual(process(test[0], start, end, start_num), test[1])
 
 
 def process(input, start, end, start_num):
@@ -69,28 +95,23 @@ def process(input, start, end, start_num):
         direction = line[:1]
         increment = int(line[1:])
         new_index = cur_index
-        if direction == "R":
-            new_index = cur_index + increment
+        # if direction == "R":
+        inc = +1
 
         if direction == "L":
-            new_index = cur_index - increment
+            inc = -1
 
-        adjusted_index = new_index
+        for _ in range(increment):
+            cur_index += inc
+            if cur_index == start - 1:
+                cur_index = end
+            if cur_index == end + 1:
+                cur_index = start
+            if cur_index == 0:
+                total += 1
 
-        while adjusted_index > end:
-            if adjusted_index == end + 1:
-                adjusted_index = start
-            else:
-                adjusted_index = start + (adjusted_index - end - 1)
-            total += 1
-        while adjusted_index < start:
-            adjusted_index = end + 1 - (start - adjusted_index)
-            total += 1
+        print(f"{new_index} {direction} {increment} = {cur_index}  {total=}")
 
-        print(
-            f"{cur_index} {direction} {increment} = {new_index} => {adjusted_index} ==> {total=}"
-        )
-        cur_index = adjusted_index
     return total
 
 
