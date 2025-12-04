@@ -33,6 +33,9 @@ if [[ $VALIDSESSION =~ "Puzzle inputs differ by user." ]] || [[ $VALIDSESSION =~
     return
 fi
 
+if [[ -z "$VIRTUAL_ENV" ]]; then
+    source .advent/Scripts/activate
+fi
 
 cp -r day ${project}
 
