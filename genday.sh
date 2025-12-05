@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 
 # get year from file year if exists
 if ! [[ -f ".year" ]]; then
@@ -14,7 +14,7 @@ if ((day < 1 || day > 25)); then
     echo "Invalid day input: $1. Must be between 1 and 25."
     return
 fi
-# project vartiable is "dayXX" where XX is the day variable
+# project variable is "dayXX" where XX is the day variable
 project=$(printf "day%02d" $1)
 
 # get session cookie from file if .session exists
@@ -36,6 +36,8 @@ fi
 if [[ -z "$VIRTUAL_ENV" ]]; then
     source .advent/Scripts/activate
 fi
+
+export PATH=$PATH:"${PWD}/pypy/"
 
 cp -r day ${project}
 
