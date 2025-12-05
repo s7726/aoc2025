@@ -15,10 +15,6 @@ class TestPart(unittest.TestCase):
 
         self.assertEqual(process(test_in), out)
 
-        for line in test_in.splitlines():
-            with self.subTest():
-                self.assertEqual(process(line), out)
-
     def test_pieces(self):
         test_in = [
             ("987654321111111", 987654321111),
@@ -32,24 +28,32 @@ class TestPart(unittest.TestCase):
                 self.assertEqual(process(line[0]), line[1])
 
 
+"""
+I was stuck on this for way too long, not sure why it seems a little obvious
+now I broke down and watched https://www.youtube.com/watch?v=XlDIGtl8iSE to
+finally work out how to move forward. This was implemented after watching
+that, but not as a direct copy. Thanks @HyperNeutrino I was close, but
+apparently needed a push (hint in the form of the answer 🤣)
+
+Maybe not... So apparently I had a hunk of test code that was failing, because
+it was broken! Which meant that it was never going to work... So I very well
+may have had this working for some time and just not known it! Extremely
+frustrating! Oh well, who knows when I actually fixed it and in how many ways
+it may have been correct prior to this. Lesson learned I guess 🤷‍♂️
+"""
+
+
 def reduce_to_digits(bank: list, length) -> int:
     val = 0
+    jolts = ""
+    bank_int = list(map(int, bank))
+    for start in range(length - 1):
+        digit = max(bank_int[: start - (length - 1)])
+        bank_int = bank_int[bank_int.index(digit) + 1 :]
+        jolts += str(digit)
+    jolts += str(max(bank_int))
 
-    cur_index = 0
-    big_stack = bank[:length]
-    slide_len = len(bank) - length + 1
-    start = 0
-    for i in range(0, len(big_stack)):
-        start = max(i, start)
-
-        end = min(start + slide_len, len(bank))
-
-        for j in range(start, end):
-            if int(big_stack[i]) < int(bank[j]):
-                big_stack[i] = bank[j]
-                start = j + 1
-
-    val = int("".join(big_stack))
+    val = int(jolts)
 
     return val
 
