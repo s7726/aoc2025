@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ ! -f part2.py ]]; then
+    echo "Creating part2.py..."
+    cp part1.py part2.py
+    subl part2.py
+else
+    echo "Error: part2.py already exists. Aborting."
+    exit 1
+fi
